@@ -30,7 +30,7 @@ async fn start() -> std::io::Result<()> {
     // establish connection to database and apply migrations
     // should defo be in a separate bin, but good enough for the poc
     let conn = Database::connect(&db_url).await.unwrap();
-    Migrator::up(&conn, None).await.unwrap();
+    // Migrator::up(&conn, None).await.unwrap();
 
     // Starting the server
     let state = AppState { conn };

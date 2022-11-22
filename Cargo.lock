@@ -1761,6 +1761,7 @@ name = "recred"
 version = "0.1.0"
 dependencies = [
  "api",
+ "migration",
 ]
 
 [[package]]
