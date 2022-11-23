@@ -21,15 +21,30 @@ impl MigrationTrait for Migration {
                     )
                     .col(ColumnDef::new(User::Email).string().not_null())
                     .col(ColumnDef::new(User::Password).string().not_null())
-                    .col(ColumnDef::new(User::Handler).string().not_null())
-                    .col(ColumnDef::new(User::CreatedAt).timestamp().not_null())
+                    .col(ColumnDef::new(User::IsActive).boolean().default(false))
+                    .col(
+                        ColumnDef::new(User::CreatedAt)
+                            .timestamp_with_time_zone()
+                            .not_null(),
+                    )
+                    .to_owned(),
+            )
+            .await
+            .unwrap();
+
+        manager
+            .create_index(
+                Index::create()
+                    .name("idx-unique-email")
+                    .table(User::Table)
+                    .col(User::Email)
+                    .unique()
                     .to_owned(),
             )
             .await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        // Replace the sample below with your own migration scripts
         manager
             .drop_table(Table::drop().table(User::Table).to_owned())
             .await
@@ -43,6 +58,6 @@ enum User {
     Id,
     Email,
     Password,
-    Handler,
+    IsActive,
     CreatedAt,
 }

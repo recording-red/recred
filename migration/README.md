@@ -1,3 +1,6 @@
+# ColumnDef Documentation
+[doc.rs](https://docs.rs/sea-orm-migration/0.8.3/sea_orm_migration/prelude/struct.ColumnDef.html)
+
 # Running Migrator CLI
 
 - Generate a new migration file

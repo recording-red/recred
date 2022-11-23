@@ -1,5 +1,5 @@
 use ::entity::{user, user::Entity as User};
-use chrono::NaiveDate;
+use chrono::{FixedOffset, Utc};
 use sea_orm::entity::prelude::*;
 use sea_orm::*;
 
@@ -14,10 +14,7 @@ impl UserQuery {
         user::ActiveModel {
             email: Set(data.email.to_owned()),
             password: Set(data.password.to_owned()),
-            handler: Set(data.handler.to_owned()),
-            created_at: Set(NaiveDate::from_ymd(2015, 9, 5)
-                .and_hms(23, 56, 4)
-                .to_owned()),
+            created_at: Set(Utc::now().with_timezone(&FixedOffset::east(0)).to_owned()),
             ..Default::default()
         }
         .save(db)

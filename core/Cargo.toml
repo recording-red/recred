@@ -15,6 +15,7 @@ features = [
     "debug-print",
     "runtime-actix-native-tls",
     "sqlx-postgres",
+    "with-chrono",
 ] 
 
 [features]
