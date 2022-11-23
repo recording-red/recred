@@ -11,7 +11,7 @@ WORKDIR /app
 COPY Cargo.toml .
 COPY Cargo.lock .
 COPY api api/
-COPY core core/
+COPY db db/
 COPY entity entity/
 COPY migration migration/
 COPY src src/

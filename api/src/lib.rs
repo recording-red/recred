@@ -1,10 +1,10 @@
 pub mod router;
+pub mod errors;
 
-use crate::router::{health, user};
+use crate::router::{health, registration, user};
 use actix_cors::Cors;
 use actix_web::{web, App, HttpResponse, HttpServer};
-use core::sea_orm::{Database, DatabaseConnection};
-use migration::{Migrator, MigratorTrait};
+use db::sea_orm::{Database, DatabaseConnection};
 use std::env;
 
 #[derive(Debug, Clone)]
@@ -12,7 +12,6 @@ struct AppState {
     conn: DatabaseConnection,
 }
 
-// async fn not_found() -> Result<HttpResponse, Error> {
 async fn not_found() -> HttpResponse {
     HttpResponse::NotFound().finish()
 }
@@ -40,6 +39,11 @@ async fn start() -> std::io::Result<()> {
             .app_data(web::Data::new(state.clone()))
             .default_service(web::route().to(not_found))
             .service(web::scope("/health").service(health::service))
+            .service(
+                web::scope("/registration")
+                    .service(registration::find)
+                    .service(registration::create),
+            )
             .service(web::scope("/user").service(user::create))
     })
     .bind(("0.0.0.0", 8080))?

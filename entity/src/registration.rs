@@ -4,16 +4,15 @@ use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Deserialize, Serialize)]
-#[sea_orm(table_name = "user")]
+#[sea_orm(table_name = "registration")]
 pub struct Model {
     #[sea_orm(primary_key)]
     #[serde(skip_deserializing)]
     pub id: i32,
     pub email: String,
-    pub password: String,
-    pub is_active: Option<bool>,
     #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
+    pub ip: Option<String>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

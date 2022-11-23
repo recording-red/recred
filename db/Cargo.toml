@@ -1,5 +1,5 @@
 [package]
-name = "core"
+name = "db"
 version = "0.1.0"
 edition = "2021"
 
@@ -10,11 +10,12 @@ chrono = "^0.4"
 entity = { path = "../entity" }
 
 [dependencies.sea-orm]
-version = "^0" # sea-orm version
+version = "^0.10" # sea-orm version
 features = [
     "debug-print",
     "runtime-actix-native-tls",
     "sqlx-postgres",
+    "with-chrono",
 ] 
 
 [features]
