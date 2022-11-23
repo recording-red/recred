@@ -1,9 +1,10 @@
 pub mod router;
+pub mod errors;
 
 use crate::router::{health, registration, user};
 use actix_cors::Cors;
 use actix_web::{web, App, HttpResponse, HttpServer};
-use core::sea_orm::{Database, DatabaseConnection};
+use db::sea_orm::{Database, DatabaseConnection};
 use std::env;
 
 #[derive(Debug, Clone)]

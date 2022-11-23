@@ -1,6 +1,6 @@
 use crate::AppState;
 use actix_web::{get, post, web, Error, HttpResponse};
-use core::user::UserQuery;
+use db::user::UserQuery;
 use entity::user;
 
 #[post("/")]

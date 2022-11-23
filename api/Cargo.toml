@@ -6,10 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-core = { path = "../core" }
+db = { path = "../db" }
 actix-web = "^4"
 actix-cors = "^0.6"
 dotenvy = "^0.15"
+derive_more = "^0.99"
 entity = { path = "../entity" }
 migration = { path = "../migration" }
 tracing-subscriber = { version = "^0.3", features = ["env-filter"] }
+sea-orm = "^0.10"

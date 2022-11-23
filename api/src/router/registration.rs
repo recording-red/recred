@@ -1,18 +1,18 @@
 use crate::AppState;
 use actix_web::{get, post, web, Error, HttpResponse, Responder};
-use core::registration::RegistrationQuery;
+use db::registration::RegistrationQuery;
 use entity::registration;
+use crate::errors::RecRedError;
 
 #[post("/")]
 async fn create(
     data: web::Data<AppState>,
     registration_json: web::Json<registration::Model>,
-) -> Result<HttpResponse, Error> {
+) -> Result<impl Responder, RecRedError> {
     let conn = &data.conn;
     let registration_data = registration_json.into_inner();
-    RegistrationQuery::create(conn, registration_data)
-        .await
-        .expect("could not create registration");
+    let obj = RegistrationQuery::create(conn, registration_data)
+            .await?;
     Ok(HttpResponse::Ok().finish())
 }
 
