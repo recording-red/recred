@@ -28,6 +28,18 @@ impl MigrationTrait for Migration {
                     .to_owned(),
             )
             .await
+            .unwrap();
+
+        manager
+            .create_index(
+                Index::create()
+                    .name("idx-registration-unique-email")
+                    .table(Registration::Table)
+                    .col(Registration::Email)
+                    .unique()
+                    .to_owned(),
+            )
+            .await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
