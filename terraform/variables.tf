@@ -1,6 +1,6 @@
 variable "my_ip" {
   description = "my IP address"
-  default = "38.242.177.249"
+  default = "38.242.177.232"
 }
 
 variable "region" {
