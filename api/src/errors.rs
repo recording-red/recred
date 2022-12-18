@@ -5,9 +5,8 @@ use actix_web::{
     HttpResponse,
 };
 
-use sea_orm::error::DbErr;
 use derive_more::{Display, Error};
-
+use sea_orm::error::DbErr;
 
 #[derive(Debug, Display, Error)]
 pub enum RecRedError {
@@ -51,4 +50,3 @@ impl From<DbErr> for RecRedError {
         //}
     }
 }
-

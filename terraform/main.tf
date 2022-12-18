@@ -217,7 +217,7 @@ resource "local_file" "recred" {
 // EC2 instance
 resource "aws_instance" "recred" {
   count         = var.settings.recred_service.count
-  ami           = data.aws_ami.amazon_linux.id
+  ami           = data.aws_ami.ubuntu.id
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.recred_public[count.index].id
   key_name               = aws_key_pair.recred.key_name

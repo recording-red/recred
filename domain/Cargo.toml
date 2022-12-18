@@ -1,5 +1,5 @@
 [package]
-name = "api"
+name = "domain"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,12 +7,10 @@ edition = "2021"
 
 [dependencies]
 db = { path = "../db" }
-domain = { path = "../domain" }
-actix-web = "^4"
-actix-cors = "^0.6"
-dotenvy = "^0.15"
-derive_more = "^0.99"
 entity = { path = "../entity" }
-migration = { path = "../migration" }
 sea-orm = "^0.10"
-tracing-subscriber = { version = "^0.3", features = ["env-filter"] }
+
+[[test]]
+name = "mock"
+required-features = ["mock"]
+

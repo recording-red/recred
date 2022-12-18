@@ -266,6 +266,7 @@ dependencies = [
  "actix-web",
  "db",
  "derive_more",
+ "domain",
  "dotenvy",
  "entity",
  "migration",
@@ -857,6 +858,15 @@ dependencies = [
  "libc",
  "redox_users",
  "winapi",
+]
+
+[[package]]
+name = "domain"
+version = "0.1.0"
+dependencies = [
+ "db",
+ "entity",
+ "sea-orm",
 ]
 
 [[package]]
@@ -1772,6 +1782,8 @@ name = "recred"
 version = "0.1.0"
 dependencies = [
  "api",
+ "domain",
+ "entity",
  "migration",
 ]
 
