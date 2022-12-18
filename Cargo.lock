@@ -860,6 +860,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "domain"
+version = "0.1.0"
+dependencies = [
+ "db",
+ "entity",
+ "sea-orm",
+]
+
+[[package]]
 name = "dotenvy"
 version = "0.15.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1772,6 +1781,8 @@ name = "recred"
 version = "0.1.0"
 dependencies = [
  "api",
+ "domain",
+ "entity",
  "migration",
 ]
 

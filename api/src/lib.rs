@@ -1,5 +1,5 @@
-pub mod router;
 pub mod errors;
+pub mod router;
 
 use crate::router::{health, registration, user};
 use actix_cors::Cors;

@@ -1,5 +1,5 @@
 use crate::AppState;
-use actix_web::{get, post, web, Error, HttpResponse};
+use actix_web::{post, web, Error, HttpResponse};
 use db::user::UserQuery;
 use entity::user;
 
