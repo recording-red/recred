@@ -6,7 +6,6 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-
         // Language
         manager
             .create_table(
@@ -31,7 +30,11 @@ impl MigrationTrait for Migration {
                     .table(LanguageLocal::Table)
                     .if_not_exists()
                     .col(ColumnDef::new(LanguageLocal::Id).integer().not_null())
-                    .col(ColumnDef::new(LanguageLocal::LanguageId).integer().not_null())
+                    .col(
+                        ColumnDef::new(LanguageLocal::LanguageId)
+                            .integer()
+                            .not_null(),
+                    )
                     .col(ColumnDef::new(LanguageLocal::Name).string().not_null())
                     .foreign_key(
                         ForeignKey::create()
@@ -48,6 +51,14 @@ impl MigrationTrait for Migration {
                     .to_owned(),
             )
             .await
+
+        // let insert = Query::insert()
+        //     .into_table(Language::Table)
+        //     .columns([Language::Name])
+        //     .values_panic(["English".into()])
+        //     .to_owned();
+
+        // manager.exec_stmt(insert).await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {

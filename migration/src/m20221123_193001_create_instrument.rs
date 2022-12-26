@@ -1,5 +1,5 @@
-use sea_orm_migration::prelude::*;
 use crate::m20221123_193000_create_language::Language;
+use sea_orm_migration::prelude::*;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -7,7 +7,6 @@ pub struct Migration;
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-
         // Instrument
         manager
             .create_table(
@@ -32,7 +31,11 @@ impl MigrationTrait for Migration {
                     .table(InstrumentLocal::Table)
                     .if_not_exists()
                     .col(ColumnDef::new(InstrumentLocal::Id).integer().not_null())
-                    .col(ColumnDef::new(InstrumentLocal::LanguageId).integer().not_null())
+                    .col(
+                        ColumnDef::new(InstrumentLocal::LanguageId)
+                            .integer()
+                            .not_null(),
+                    )
                     .col(ColumnDef::new(InstrumentLocal::Name).string().not_null())
                     .foreign_key(
                         ForeignKey::create()

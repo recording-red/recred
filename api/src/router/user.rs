@@ -1,7 +1,7 @@
 use crate::errors::RecRedError;
 use crate::AppState;
-use actix_web::{post, web, Responder, HttpResponse};
-use domain::user::{create as dcreate};
+use actix_web::{post, web, HttpResponse, Responder};
+use domain::user::create as dcreate;
 use entity::user;
 
 #[post("/")]
