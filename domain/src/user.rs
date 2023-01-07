@@ -3,8 +3,9 @@ use db::user::UserQuery;
 use sea_orm::error::DbErr;
 use sea_orm::*;
 
-pub async fn create(db: &DbConn, data: user::Model) -> Result<user::ActiveModel, DbErr> {
-    UserQuery::save(db, data).await
+pub async fn create(db: &DbConn, data: user::Model) -> Result<user::Model, DbErr> {
+    let active_model = UserQuery::save(db, data).await?;
+    active_model.try_into_model()
 }
 
 //async fn read_all() {}

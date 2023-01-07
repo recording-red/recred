@@ -1,6 +1,6 @@
 use crate::errors::RecRedError;
 use crate::AppState;
-use actix_web::{get, post, web, HttpResponse, Responder};
+use actix_web::{get, post, web, Responder};
 use domain::user::{create, read_all};
 use entity::user;
 
@@ -11,11 +11,10 @@ async fn post(
 ) -> Result<impl Responder, RecRedError> {
     let conn = &data.conn;
     let user_data = user_json.into_inner();
-    let _obj = create(conn, user_data)
+    let obj = create(conn, user_data)
         .await
         .expect("could not create user");
-    Ok(HttpResponse::Ok().finish())
-    //Ok(web::Json(obj))
+    Ok(web::Json(obj))
 }
 
 #[get("/")]

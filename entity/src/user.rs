@@ -10,6 +10,7 @@ pub struct Model {
     #[serde(skip_deserializing)]
     pub id: i32,
     pub email: String,
+    #[serde(skip_serializing)]
     pub password: String,
     pub is_active: Option<bool>,
     #[serde(skip_deserializing)]
