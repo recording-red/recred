@@ -7,11 +7,11 @@ use entity::user;
 #[post("/")]
 async fn post(
     data: web::Data<AppState>,
-    user_json: web::Json<user::Model>,
+    json: web::Json<user::Model>,
 ) -> Result<impl Responder, RecRedError> {
     let conn = &data.conn;
-    let user_data = user_json.into_inner();
-    let obj = create(conn, user_data)
+    let data = json.into_inner();
+    let obj = create(conn, data)
         .await
         .expect("could not create user");
     Ok(web::Json(obj))

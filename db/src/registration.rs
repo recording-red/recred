@@ -10,7 +10,7 @@ impl RegistrationQuery {
         Registration::find().all(db).await
     }
 
-    pub async fn create(
+    pub async fn save(
         db: &DbConn,
         data: registration::Model,
     ) -> Result<registration::ActiveModel, DbErr> {

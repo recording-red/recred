@@ -41,10 +41,14 @@ async fn start() -> std::io::Result<()> {
             .service(web::scope("/health").service(health::service))
             .service(
                 web::scope("/registration")
-                    .service(registration::find)
-                    .service(registration::create),
+                    .service(user::post)
+                    .service(user::get)
             )
-            .service(web::scope("/user").service(user::post).service(user::get))
+            .service(
+                web::scope("/user")
+                    .service(registration::post)
+                    .service(registration::get)
+            )
     })
     .bind(("0.0.0.0", 8080))?
     .run()

@@ -1,25 +1,25 @@
 use crate::errors::RecRedError;
 use crate::AppState;
-use actix_web::{get, post, web, Error, HttpResponse, Responder};
-use db::registration::RegistrationQuery;
+use actix_web::{get, post, web, Error, Responder};
+use domain::registration::{create, read_all};
 use entity::registration;
 
 #[post("/")]
-async fn create(
+async fn post(
     data: web::Data<AppState>,
-    registration_json: web::Json<registration::Model>,
+    json: web::Json<registration::Model>,
 ) -> Result<impl Responder, RecRedError> {
     let conn = &data.conn;
-    let registration_data = registration_json.into_inner();
-    let _obj = RegistrationQuery::create(conn, registration_data).await?;
-    Ok(HttpResponse::Ok().finish())
+    let data = json.into_inner();
+    let obj = create(conn, data)
+        .await
+        .expect("could not create user");
+    Ok(web::Json(obj))
 }
 
 #[get("/")]
-async fn find(data: web::Data<AppState>) -> Result<impl Responder, Error> {
+async fn get(data: web::Data<AppState>) -> Result<impl Responder, Error> {
     let conn = &data.conn;
-    let objs = RegistrationQuery::find(conn)
-        .await
-        .expect("could not list registrations");
-    Ok(web::Json(objs))
+    let obj = read_all(conn).await.expect("could not list users");
+    Ok(web::Json(obj))
 }
