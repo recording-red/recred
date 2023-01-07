@@ -11,9 +11,7 @@ async fn post(
 ) -> Result<impl Responder, RecRedError> {
     let conn = &data.conn;
     let data = json.into_inner();
-    let obj = create(conn, data)
-        .await
-        .expect("could not create user");
+    let obj = create(conn, data).await.expect("could not create user");
     Ok(web::Json(obj))
 }
 

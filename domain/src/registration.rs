@@ -3,7 +3,10 @@ use db::registration::RegistrationQuery;
 use sea_orm::error::DbErr;
 use sea_orm::*;
 
-pub async fn create(conn: &DbConn, data: registration::Model) -> Result<registration::Model, DbErr> {
+pub async fn create(
+    conn: &DbConn,
+    data: registration::Model,
+) -> Result<registration::Model, DbErr> {
     let obj = RegistrationQuery::save(conn, data).await?;
     obj.try_into_model()
 }

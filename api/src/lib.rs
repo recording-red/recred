@@ -42,12 +42,12 @@ async fn start() -> std::io::Result<()> {
             .service(
                 web::scope("/registration")
                     .service(user::post)
-                    .service(user::get)
+                    .service(user::get),
             )
             .service(
                 web::scope("/user")
                     .service(registration::post)
-                    .service(registration::get)
+                    .service(registration::get),
             )
     })
     .bind(("0.0.0.0", 8080))?
