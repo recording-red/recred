@@ -11,7 +11,7 @@ async fn create(
 ) -> Result<impl Responder, RecRedError> {
     let conn = &data.conn;
     let registration_data = registration_json.into_inner();
-    let obj = RegistrationQuery::create(conn, registration_data).await?;
+    let _obj = RegistrationQuery::create(conn, registration_data).await?;
     Ok(HttpResponse::Ok().finish())
 }
 

@@ -16,7 +16,9 @@ impl RegistrationQuery {
     ) -> Result<registration::ActiveModel, DbErr> {
         registration::ActiveModel {
             email: Set(data.email.to_owned()),
-            created_at: Set(Utc::now().with_timezone(&FixedOffset::east(0)).to_owned()),
+            created_at: Set(Utc::now()
+                .with_timezone(&FixedOffset::east_opt(0).unwrap())
+                .to_owned()),
             ip: Set(data.ip.to_owned()),
             ..Default::default()
         }

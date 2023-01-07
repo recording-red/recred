@@ -30,7 +30,18 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(InstrumentLocal::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(InstrumentLocal::Id).integer().not_null())
+                    .col(
+                        ColumnDef::new(InstrumentLocal::Id)
+                            .integer()
+                            .not_null()
+                            .auto_increment()
+                            .primary_key(),
+                    )
+                    .col(
+                        ColumnDef::new(InstrumentLocal::InstrumentId)
+                            .integer()
+                            .not_null(),
+                    )
                     .col(
                         ColumnDef::new(InstrumentLocal::LanguageId)
                             .integer()
@@ -39,13 +50,13 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(InstrumentLocal::Name).string().not_null())
                     .foreign_key(
                         ForeignKey::create()
-                            .name("fk-instrument_local-id")
-                            .from(InstrumentLocal::Table, InstrumentLocal::Id)
+                            .name("fk-instrument-instrument_id")
+                            .from(InstrumentLocal::Table, InstrumentLocal::InstrumentId)
                             .to(Instrument::Table, Instrument::Id),
                     )
                     .foreign_key(
                         ForeignKey::create()
-                            .name("fk-instrument_local-language_id")
+                            .name("fk-instrument-language_id")
                             .from(InstrumentLocal::Table, InstrumentLocal::LanguageId)
                             .to(Language::Table, Language::Id),
                     )
@@ -78,6 +89,7 @@ enum Instrument {
 enum InstrumentLocal {
     Table,
     Id,
+    InstrumentId,
     LanguageId,
     Name,
 }

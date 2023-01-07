@@ -29,23 +29,30 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(LanguageLocal::Table)
                     .if_not_exists()
-                    .col(ColumnDef::new(LanguageLocal::Id).integer().not_null())
+                    .col(
+                        ColumnDef::new(LanguageLocal::Id)
+                            .integer()
+                            .not_null()
+                            .auto_increment()
+                            .primary_key(),
+                    )
                     .col(
                         ColumnDef::new(LanguageLocal::LanguageId)
                             .integer()
                             .not_null(),
                     )
+                    .col(ColumnDef::new(LanguageLocal::LocalId).integer().not_null())
                     .col(ColumnDef::new(LanguageLocal::Name).string().not_null())
                     .foreign_key(
                         ForeignKey::create()
-                            .name("fk-language_local-id")
-                            .from(LanguageLocal::Table, LanguageLocal::Id)
+                            .name("fk-language-language_id")
+                            .from(LanguageLocal::Table, LanguageLocal::LanguageId)
                             .to(Language::Table, Language::Id),
                     )
                     .foreign_key(
                         ForeignKey::create()
-                            .name("fk-language_local-local_id")
-                            .from(LanguageLocal::Table, LanguageLocal::LanguageId)
+                            .name("fk-language-local_id")
+                            .from(LanguageLocal::Table, LanguageLocal::LocalId)
                             .to(Language::Table, Language::Id),
                     )
                     .to_owned(),
@@ -86,5 +93,6 @@ enum LanguageLocal {
     Table,
     Id,
     LanguageId,
+    LocalId,
     Name,
 }

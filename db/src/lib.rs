@@ -1,3 +1,4 @@
+pub mod instrument;
 pub mod registration;
 pub mod user;
 
