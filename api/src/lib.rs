@@ -1,7 +1,7 @@
 pub mod errors;
 pub mod router;
 
-use crate::router::{health, registration, user};
+use crate::router::{health, language, registration, user};
 use actix_cors::Cors;
 use actix_web::{web, App, HttpResponse, HttpServer};
 use db::sea_orm::{Database, DatabaseConnection};
@@ -48,6 +48,11 @@ async fn start() -> std::io::Result<()> {
                 web::scope("/user")
                     .service(registration::post)
                     .service(registration::get),
+            )
+            .service(
+                web::scope("/language")
+                    .service(language::post)
+                    .service(language::get),
             )
     })
     .bind(("0.0.0.0", 8080))?
