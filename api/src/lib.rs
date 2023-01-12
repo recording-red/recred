@@ -41,13 +41,13 @@ async fn start() -> std::io::Result<()> {
             .service(web::scope("/health").service(health::service))
             .service(
                 web::scope("/registration")
-                    .service(user::post)
-                    .service(user::get),
+                    .service(registration::post)
+                    .service(registration::get),
             )
             .service(
                 web::scope("/user")
-                    .service(registration::post)
-                    .service(registration::get),
+                    .service(user::post)
+                    .service(user::get),
             )
             .service(
                 web::scope("/language")
