@@ -4,6 +4,7 @@ mod m20221123_192127_create_registration;
 mod m20221123_193000_create_language;
 mod m20221123_193001_create_instrument;
 mod m20221123_193002_create_role;
+mod m20221123_193003_create_style;
 mod m20221123_201400_create_user;
 
 pub struct Migrator;
@@ -16,6 +17,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20221123_193000_create_language::Migration),
             Box::new(m20221123_193001_create_instrument::Migration),
             Box::new(m20221123_193002_create_role::Migration),
+            Box::new(m20221123_193003_create_style::Migration),
             Box::new(m20221123_201400_create_user::Migration),
         ]
     }
