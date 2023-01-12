@@ -79,7 +79,11 @@ impl MigrationTrait for Migration {
 
         let insert_instrument_local = Query::insert()
             .into_table(InstrumentLocal::Table)
-            .columns([InstrumentLocal::InstrumentId, InstrumentLocal::LanguageId, InstrumentLocal::Name])
+            .columns([
+                InstrumentLocal::InstrumentId,
+                InstrumentLocal::LanguageId,
+                InstrumentLocal::Name,
+            ])
             //english
             .values_panic([1.into(), 1.into(), "bass guitar".into()])
             .values_panic([2.into(), 1.into(), "drum".into()])

@@ -1,5 +1,5 @@
-use sea_orm_migration::prelude::*;
 use sea_orm::Statement;
+use sea_orm_migration::prelude::*;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -25,8 +25,7 @@ impl MigrationTrait for Migration {
             )
             .await?;
 
-
-         // LanguageLocal
+        // LanguageLocal
         manager
             .create_table(
                 Table::create()
@@ -74,7 +73,11 @@ impl MigrationTrait for Migration {
 
         let insert_language_local = Query::insert()
             .into_table(LanguageLocal::Table)
-            .columns([LanguageLocal::LanguageId, LanguageLocal::LocalId, LanguageLocal::Name])
+            .columns([
+                LanguageLocal::LanguageId,
+                LanguageLocal::LocalId,
+                LanguageLocal::Name,
+            ])
             //english
             .values_panic([1.into(), 1.into(), "English".into()])
             .values_panic([2.into(), 1.into(), "French".into()])
@@ -97,7 +100,6 @@ impl MigrationTrait for Migration {
             .values_panic([4.into(), 4.into(), "Deutsch".into()])
             .to_owned();
         manager.exec_stmt(insert_language_local).await
-
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {

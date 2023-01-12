@@ -1,3 +1,5 @@
+use crate::m20221123_193002_create_role::Role;
+use crate::m20221123_193000_create_language::Language;
 use sea_orm_migration::prelude::*;
 
 #[derive(DeriveMigrationName)]
@@ -63,37 +65,103 @@ impl MigrationTrait for Migration {
                     .to_owned(),
             )
             .await
+            .unwrap();
+
+        // Team
+        manager
+            .create_table(
+                Table::create()
+                    .table(Team::Table)
+                    .if_not_exists()
+                    .col(
+                        ColumnDef::new(Team::Id)
+                            .integer()
+                            .not_null()
+                            .auto_increment()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Team::UserId).integer().not_null())
+                    .col(ColumnDef::new(Team::RoleId).integer().not_null())
+                    .col(
+                        ColumnDef::new(Team::CreatedAt)
+                            .timestamp_with_time_zone()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Team::UpdatedAt)
+                            .timestamp_with_time_zone()
+                            .not_null(),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk-team-user_id")
+                            .from(Team::Table, Team::UserId)
+                            .to(User::Table, User::Id),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk-team-role_id")
+                            .from(Team::Table, Team::RoleId)
+                            .to(Role::Table, Role::Id),
+                    )
+                    .to_owned(),
+            )
+            .await?;
 
         // Channel
-        //        manager
-        //            .create_table(
-        //                Table::create()
-        //                    .table(Channel::Table)
-        //                    .if_not_exists()
-        //                    .col(
-        //                        ColumnDef::new(Table::Id)
-        //                            .integer()
-        //                            .not_null()
-        //                            .auto_increment()
-        //                            .primary_key(),
-        //                    )
-        //                    .col(
-        //                        ColumnDef::new(Channel::UserId)
-        //                            .integer()
-        //                            .not_null(),
-        //                    ):
-        //                    .foreign_key(
-        //                        ForeignKey::create()
-        //                            .name("fk-channel-user_id")
-        //                            .from(LanguageLocal::Table, LanguageLocal::LocalId)
-        //                            .to(Language::Table, Language::Id),
-        //                    )
-        //                    .to_owned(),
-        //            )
-        //        .await
+        manager
+            .create_table(
+                Table::create()
+                    .table(Channel::Table)
+                    .if_not_exists()
+                    .col(
+                        ColumnDef::new(Channel::Id)
+                            .integer()
+                            .not_null()
+                            .auto_increment(),
+                    )
+                    .col(ColumnDef::new(Channel::TeamId).integer().not_null())
+                    .col(ColumnDef::new(Channel::Name).string().not_null())
+                    .col(ColumnDef::new(Channel::Description).string().not_null())
+                    .col(ColumnDef::new(Channel::Miniature).binary())
+                    .col(ColumnDef::new(Channel::Background).binary())
+                    .col(ColumnDef::new(Channel::LanguageId).integer().not_null())
+                    //InstrumentIds,
+                    //StyleIds,
+                    .col(
+                        ColumnDef::new(Channel::CreatedAt)
+                            .timestamp_with_time_zone()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(Channel::UpdatedAt)
+                            .timestamp_with_time_zone()
+                            .not_null(),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk-channel-team_id")
+                            .from(Channel::Table, Channel::TeamId)
+                            .to(Team::Table, Team::Id),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk-channel-language_id")
+                            .from(Channel::Table, Channel::LanguageId)
+                            .to(Language::Table, Language::Id),
+                    )
+                    .to_owned(),
+            )
+            .await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+        manager
+            .drop_table(Table::drop().table(Channel::Table).to_owned())
+            .await?;
+        manager
+            .drop_table(Table::drop().table(Team::Table).to_owned())
+            .await?;
         manager
             .drop_table(Table::drop().table(User::Table).to_owned())
             .await
@@ -117,15 +185,27 @@ enum User {
 }
 
 #[derive(Iden)]
-enum Channel {
+enum Team {
     Table,
     Id,
     UserId,
+    RoleId,
+    CreatedAt,
+    UpdatedAt,
+}
+
+#[derive(Iden)]
+enum Channel {
+    Table,
+    Id,
+    TeamId,
+    Name,
+    Description,
     Miniature,
     Background,
-    Description,
-    Name,
-    InstrumentIds,
     LanguageId,
-    Styles,
+    //InstrumentIds,
+    //StyleIds,
+    CreatedAt,
+    UpdatedAt,
 }
