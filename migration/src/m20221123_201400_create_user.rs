@@ -118,7 +118,8 @@ impl MigrationTrait for Migration {
                         ColumnDef::new(Channel::Id)
                             .big_integer()
                             .not_null()
-                            .auto_increment(),
+                            .auto_increment()
+                            .primary_key(),
                     )
                     .col(ColumnDef::new(Channel::TeamId).integer().not_null())
                     .col(ColumnDef::new(Channel::Name).string().not_null())
