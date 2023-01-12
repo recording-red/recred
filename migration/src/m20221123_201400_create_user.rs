@@ -1,5 +1,5 @@
-use crate::m20221123_193002_create_role::Role;
 use crate::m20221123_193000_create_language::Language;
+use crate::m20221123_193002_create_role::Role;
 use sea_orm_migration::prelude::*;
 
 #[derive(DeriveMigrationName)]
@@ -16,7 +16,7 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(User::Id)
-                            .integer()
+                            .big_integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
@@ -75,7 +75,7 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Team::Id)
-                            .integer()
+                            .big_integer()
                             .not_null()
                             .auto_increment()
                             .primary_key(),
@@ -116,7 +116,7 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Channel::Id)
-                            .integer()
+                            .big_integer()
                             .not_null()
                             .auto_increment(),
                     )
@@ -126,8 +126,8 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Channel::Miniature).binary())
                     .col(ColumnDef::new(Channel::Background).binary())
                     .col(ColumnDef::new(Channel::LanguageId).integer().not_null())
-                    //InstrumentIds,
-                    //StyleIds,
+                    .col(ColumnDef::new(Channel::Instruments).json())
+                    .col(ColumnDef::new(Channel::Styles).json())
                     .col(
                         ColumnDef::new(Channel::CreatedAt)
                             .timestamp_with_time_zone()
@@ -204,8 +204,8 @@ enum Channel {
     Miniature,
     Background,
     LanguageId,
-    //InstrumentIds,
-    //StyleIds,
+    Instruments,
+    Styles,
     CreatedAt,
     UpdatedAt,
 }
