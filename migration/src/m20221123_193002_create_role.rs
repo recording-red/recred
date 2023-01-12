@@ -21,15 +21,18 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Role::Name).string().not_null())
                     .to_owned(),
             )
-            .await
+            .await?;
 
-        // let insert = Query::insert()
-        //     .into_table(Language::Table)
-        //     .columns([Language::Name])
-        //     .values_panic(["English".into()])
-        //     .to_owned();
+        let insert = Query::insert()
+            .into_table(Role::Table)
+            .columns([Role::Name])
+            .values_panic(["owner".into()])
+            .values_panic(["admin".into()])
+            .values_panic(["moderator".into()])
+            .values_panic(["publisher".into()])
+            .to_owned();
 
-        // manager.exec_stmt(insert).await
+        manager.exec_stmt(insert).await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {

@@ -44,11 +44,7 @@ async fn start() -> std::io::Result<()> {
                     .service(registration::post)
                     .service(registration::get),
             )
-            .service(
-                web::scope("/user")
-                    .service(user::post)
-                    .service(user::get),
-            )
+            .service(web::scope("/user").service(user::post).service(user::get))
             .service(
                 web::scope("/language")
                     .service(language::post)

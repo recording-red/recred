@@ -1,4 +1,5 @@
 use sea_orm_migration::prelude::*;
+use sea_orm::Statement;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -24,6 +25,8 @@ impl MigrationTrait for Migration {
             )
             .await?;
 
+
+         // LanguageLocal
         manager
             .create_table(
                 Table::create()
@@ -57,15 +60,44 @@ impl MigrationTrait for Migration {
                     )
                     .to_owned(),
             )
-            .await
+            .await?;
 
-        // let insert = Query::insert()
-        //     .into_table(Language::Table)
-        //     .columns([Language::Name])
-        //     .values_panic(["English".into()])
-        //     .to_owned();
+        let insert_language = Query::insert()
+            .into_table(Language::Table)
+            .columns([Language::Name])
+            .values_panic(["English".into()])
+            .values_panic(["French".into()])
+            .values_panic(["Japanese".into()])
+            .values_panic(["German".into()])
+            .to_owned();
+        manager.exec_stmt(insert_language).await?;
 
-        // manager.exec_stmt(insert).await
+        let insert_language_local = Query::insert()
+            .into_table(LanguageLocal::Table)
+            .columns([LanguageLocal::LanguageId, LanguageLocal::LocalId, LanguageLocal::Name])
+            //english
+            .values_panic([1.into(), 1.into(), "English".into()])
+            .values_panic([2.into(), 1.into(), "French".into()])
+            .values_panic([3.into(), 1.into(), "Japanese".into()])
+            .values_panic([4.into(), 1.into(), "German".into()])
+            //french
+            .values_panic([1.into(), 2.into(), "Anglais".into()])
+            .values_panic([2.into(), 2.into(), "Français".into()])
+            .values_panic([3.into(), 2.into(), "Japonais".into()])
+            .values_panic([4.into(), 2.into(), "Allemand".into()])
+            //japanese
+            .values_panic([1.into(), 3.into(), "英語".into()])
+            .values_panic([2.into(), 3.into(), "フランス語".into()])
+            .values_panic([3.into(), 3.into(), "日本語".into()])
+            .values_panic([4.into(), 3.into(), "ドイツ語".into()])
+            //german
+            .values_panic([1.into(), 4.into(), "Englisch".into()])
+            .values_panic([2.into(), 4.into(), "Französisch".into()])
+            .values_panic([3.into(), 4.into(), "Japanisch".into()])
+            .values_panic([4.into(), 4.into(), "Deutsch".into()])
+            .to_owned();
+        manager.exec_stmt(insert_language_local).await
+
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {

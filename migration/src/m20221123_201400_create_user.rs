@@ -65,33 +65,32 @@ impl MigrationTrait for Migration {
             .await
 
         // Channel
-//        manager
-//            .create_table(
-//                Table::create()
-//                    .table(Channel::Table)
-//                    .if_not_exists()
-//                    .col(
-//                        ColumnDef::new(Table::Id)
-//                            .integer()
-//                            .not_null()
-//                            .auto_increment()
-//                            .primary_key(),
-//                    )
-//                    .col(
-//                        ColumnDef::new(Channel::UserId)
-//                            .integer()
-//                            .not_null(),
-//                    ):
-//                    .foreign_key(
-//                        ForeignKey::create()
-//                            .name("fk-channel-user_id")
-//                            .from(LanguageLocal::Table, LanguageLocal::LocalId)
-//                            .to(Language::Table, Language::Id),
-//                    )
-//                    .to_owned(),
-//            )
-//        .await
-
+        //        manager
+        //            .create_table(
+        //                Table::create()
+        //                    .table(Channel::Table)
+        //                    .if_not_exists()
+        //                    .col(
+        //                        ColumnDef::new(Table::Id)
+        //                            .integer()
+        //                            .not_null()
+        //                            .auto_increment()
+        //                            .primary_key(),
+        //                    )
+        //                    .col(
+        //                        ColumnDef::new(Channel::UserId)
+        //                            .integer()
+        //                            .not_null(),
+        //                    ):
+        //                    .foreign_key(
+        //                        ForeignKey::create()
+        //                            .name("fk-channel-user_id")
+        //                            .from(LanguageLocal::Table, LanguageLocal::LocalId)
+        //                            .to(Language::Table, Language::Id),
+        //                    )
+        //                    .to_owned(),
+        //            )
+        //        .await
     }
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
