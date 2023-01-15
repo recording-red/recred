@@ -80,7 +80,7 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Team::UserId).integer().not_null())
+                    .col(ColumnDef::new(Team::UserId).big_integer().not_null())
                     .col(ColumnDef::new(Team::RoleId).integer().not_null())
                     .col(
                         ColumnDef::new(Team::CreatedAt)
@@ -121,7 +121,7 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Channel::TeamId).integer().not_null())
+                    .col(ColumnDef::new(Channel::TeamId).big_integer().not_null())
                     .col(ColumnDef::new(Channel::Name).string().not_null())
                     .col(ColumnDef::new(Channel::Description).string().not_null())
                     .col(ColumnDef::new(Channel::Miniature).binary())
