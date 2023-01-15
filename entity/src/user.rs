@@ -17,7 +17,9 @@ pub struct Model {
     pub is_active: Option<bool>,
     #[serde(skip_deserializing)]
     pub password: Option<String>,
+    #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
+    #[serde(skip_deserializing)]
     pub updated_at: DateTimeWithTimeZone,
 }
 
