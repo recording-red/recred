@@ -26,14 +26,18 @@ impl MigrationTrait for Migration {
         let insert = Query::insert()
             .into_table(Style::Table)
             .columns([Style::Name])
-            .values_panic(["blues".into()])
-            .values_panic(["finger picking".into()])
-            .values_panic(["funk".into()])
             .values_panic(["jazz".into()])
+            .values_panic(["blues".into()])
+            .values_panic(["rock".into()])
+            .values_panic(["hard rock".into()])
             .values_panic(["metal".into()])
-            .values_panic(["neo soul".into()])
+            .values_panic(["funk".into()])
             .values_panic(["reggae".into()])
-            .values_panic(["rock'n roll".into()])
+            .values_panic(["country".into()])
+            .values_panic(["pop".into()])
+            .values_panic(["hip hop".into()])
+            .values_panic(["neo soul".into()])
+            .values_panic(["ska".into()])
             .to_owned();
 
         manager.exec_stmt(insert).await

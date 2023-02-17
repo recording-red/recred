@@ -1,7 +1,7 @@
 pub mod errors;
 pub mod router;
 
-use crate::router::{channel, health, instrument, language, registration, style, user};
+use crate::router::{channel, health, instrument, language, registration, style, user, video};
 use actix_cors::Cors;
 use actix_web::{web, App, HttpResponse, HttpServer};
 use db::sea_orm::{Database, DatabaseConnection};
@@ -53,6 +53,7 @@ async fn start() -> std::io::Result<()> {
             )
             .service(web::scope("/style").service(style::get))
             .service(web::scope("/instrument").service(instrument::get))
+            .service(web::scope("/video/upload").service(video::upload))
     })
     .bind(("0.0.0.0", 8080))?
     .run()

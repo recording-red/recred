@@ -5,3 +5,4 @@ pub mod language;
 pub mod registration;
 pub mod style;
 pub mod user;
+pub mod video;
