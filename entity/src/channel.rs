@@ -6,17 +6,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Deserialize, Serialize)]
 #[sea_orm(table_name = "channel")]
 pub struct Model {
-    #[sea_orm(primary_key)]
+    #[sea_orm(primary_key, auto_increment = false)]
     #[serde(skip_deserializing)]
-    pub id: i64,
-    pub team_id: i64,
+    pub id: String,
+    pub team_id: String,
     pub name: String,
     pub description: String,
     pub miniature: Option<Vec<u8>>,
     pub background: Option<Vec<u8>>,
     pub language_id: i32,
-    pub instruments: Option<Json>,
-    pub styles: Option<Json>,
     #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
     #[serde(skip_deserializing)]

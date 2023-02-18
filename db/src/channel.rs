@@ -1,4 +1,5 @@
-use ::entity::{channel, channel::Entity as Channel, team};
+use crate::utils::generate_id;
+use ::entity::{channel, channel::Entity as Channel};
 use chrono::{FixedOffset, Utc};
 use sea_orm::entity::prelude::*;
 use sea_orm::*;
@@ -10,14 +11,19 @@ impl ChannelQuery {
         Channel::find().all(db).await
     }
 
-    pub async fn find_by_id(db: &DbConn, id: i64) -> Result<Option<channel::Model>, DbErr> {
+    pub async fn find_by_id(db: &DbConn, id: String) -> Result<Option<channel::Model>, DbErr> {
         Channel::find_by_id(id).one(db).await
     }
 
-    pub async fn save(db: &DbConn, data: channel::Model) -> Result<channel::ActiveModel, DbErr> {
-        let team_data = team::ActiveModel {
-            user_id: Set(1.to_owned()),
-            role_id: Set(1.to_owned()),
+    pub async fn insert(db: &DbConn, data: channel::Model) -> Result<channel::Model, DbErr> {
+        channel::ActiveModel {
+            id: Set(generate_id().to_owned()),
+            team_id: Set(data.team_id.to_owned()),
+            name: Set(data.name.to_owned()),
+            description: Set(data.description.to_owned()),
+            miniature: Set(data.miniature.to_owned()),
+            background: Set(data.background.to_owned()),
+            language_id: Set(data.language_id.to_owned()),
             created_at: Set(Utc::now()
                 .with_timezone(&FixedOffset::east_opt(0).unwrap())
                 .to_owned()),
@@ -26,19 +32,19 @@ impl ChannelQuery {
                 .to_owned()),
             ..Default::default()
         }
-        .save(db)
-        .await?
-        .try_into_model()?;
+        .insert(db)
+        .await
+    }
 
+    pub async fn save(db: &DbConn, data: channel::Model) -> Result<channel::ActiveModel, DbErr> {
         channel::ActiveModel {
-            team_id: Set(team_data.id.to_owned()),
+            id: Set(data.id.to_owned()),
+            team_id: Set(data.team_id.to_owned()),
             name: Set(data.name.to_owned()),
             description: Set(data.description.to_owned()),
             miniature: Set(data.miniature.to_owned()),
             background: Set(data.background.to_owned()),
             language_id: Set(data.language_id.to_owned()),
-            instruments: Set(data.instruments.to_owned()),
-            styles: Set(data.styles.to_owned()),
             created_at: Set(Utc::now()
                 .with_timezone(&FixedOffset::east_opt(0).unwrap())
                 .to_owned()),

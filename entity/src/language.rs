@@ -14,16 +14,8 @@ pub struct Model {
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::instrument_local::Entity")]
-    InstrumentLocal,
     #[sea_orm(has_many = "super::channel::Entity")]
     Channel,
-}
-
-impl Related<super::instrument_local::Entity> for Entity {
-    fn to() -> RelationDef {
-        Relation::InstrumentLocal.def()
-    }
 }
 
 impl Related<super::channel::Entity> for Entity {

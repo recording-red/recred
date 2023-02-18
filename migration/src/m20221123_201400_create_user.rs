@@ -16,9 +16,8 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(User::Id)
-                            .big_integer()
+                            .char_len(11)
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
                     .col(ColumnDef::new(User::Email).string().not_null())
@@ -75,12 +74,11 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Team::Id)
-                            .big_integer()
+                            .char_len(11)
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Team::UserId).big_integer().not_null())
+                    .col(ColumnDef::new(Team::UserId).char_len(11).not_null())
                     .col(ColumnDef::new(Team::RoleId).integer().not_null())
                     .col(
                         ColumnDef::new(Team::CreatedAt)
@@ -116,19 +114,16 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Channel::Id)
-                            .big_integer()
+                            .char_len(11)
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Channel::TeamId).big_integer().not_null())
+                    .col(ColumnDef::new(Channel::TeamId).char_len(11).not_null())
                     .col(ColumnDef::new(Channel::Name).string().not_null())
                     .col(ColumnDef::new(Channel::Description).string().not_null())
                     .col(ColumnDef::new(Channel::Miniature).binary())
                     .col(ColumnDef::new(Channel::Background).binary())
                     .col(ColumnDef::new(Channel::LanguageId).integer().not_null())
-                    .col(ColumnDef::new(Channel::Instruments).json())
-                    .col(ColumnDef::new(Channel::Styles).json())
                     .col(
                         ColumnDef::new(Channel::CreatedAt)
                             .timestamp_with_time_zone()
@@ -205,8 +200,6 @@ enum Channel {
     Miniature,
     Background,
     LanguageId,
-    Instruments,
-    Styles,
     CreatedAt,
     UpdatedAt,
 }

@@ -3,11 +3,13 @@ use db::channel::ChannelQuery;
 use sea_orm::*;
 
 pub async fn create(db: &DbConn, data: channel::Model) -> Result<channel::Model, DbErr> {
-    let obj = ChannelQuery::save(db, data).await?;
-    obj.try_into_model()
+    ChannelQuery::insert(db, data).await
+    // obj.try_into_model()
 }
 
-//async fn read() {}
+pub async fn read(db: &DbConn, id: String) -> Result<Option<channel::Model>, DbErr> {
+    ChannelQuery::find_by_id(db, id).await
+}
 
 pub async fn read_all(db: &DbConn) -> Result<Vec<channel::Model>, DbErr> {
     ChannelQuery::find(db).await
