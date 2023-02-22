@@ -10,11 +10,12 @@ pub struct Model {
     #[serde(skip_deserializing)]
     pub id: String,
     pub team_id: String,
-    pub name: String,
-    pub description: String,
+    pub name: Option<String>,
+    pub description: Option<String>,
     pub miniature: Option<Vec<u8>>,
     pub background: Option<Vec<u8>>,
-    pub language_id: i32,
+    #[serde(skip_deserializing)]
+    pub language_id: Option<i32>,
     #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
     #[serde(skip_deserializing)]

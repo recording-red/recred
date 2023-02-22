@@ -15,6 +15,14 @@ pub async fn read_all(db: &DbConn) -> Result<Vec<channel::Model>, DbErr> {
     ChannelQuery::find(db).await
 }
 
+pub async fn update_background(
+    db: &DbConn,
+    id: String,
+    data: Option<Vec<u8>>,
+) -> Result<channel::Model, DbErr> {
+    ChannelQuery::save_background(db, id, data).await
+}
+
 //async fn update()
 
 //async fn delete() {}

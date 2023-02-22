@@ -119,11 +119,19 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Channel::TeamId).char_len(11).not_null())
-                    .col(ColumnDef::new(Channel::Name).string().not_null())
-                    .col(ColumnDef::new(Channel::Description).string().not_null())
-                    .col(ColumnDef::new(Channel::Miniature).binary())
-                    .col(ColumnDef::new(Channel::Background).binary())
-                    .col(ColumnDef::new(Channel::LanguageId).integer().not_null())
+                    .col(ColumnDef::new(Channel::Name).string().null())
+                    .col(ColumnDef::new(Channel::Description).string().null())
+                    .col(
+                        ColumnDef::new(Channel::Miniature)
+                            .blob(BlobSize::Blob(None))
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Channel::Background)
+                            .blob(BlobSize::Blob(None))
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Channel::LanguageId).integer().default(2))
                     .col(
                         ColumnDef::new(Channel::CreatedAt)
                             .timestamp_with_time_zone()

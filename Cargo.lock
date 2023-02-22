@@ -275,6 +275,7 @@ dependencies = [
  "futures-util",
  "migration",
  "sea-orm",
+ "serde",
  "tracing-subscriber",
  "uuid",
 ]

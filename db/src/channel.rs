@@ -56,4 +56,19 @@ impl ChannelQuery {
         .save(db)
         .await
     }
+
+    pub async fn save_background(
+        db: &DbConn,
+        id: String,
+        data: Option<Vec<u8>>,
+    ) -> Result<channel::Model, DbErr> {
+        let channel: Option<channel::Model> = Channel::find_by_id(id).one(db).await?;
+        let mut channel: channel::ActiveModel = channel.unwrap().into();
+        channel.background = Set(data.to_owned());
+        channel.updated_at = Set(Utc::now()
+            .with_timezone(&FixedOffset::east_opt(0).unwrap())
+            .to_owned());
+
+        channel.update(db).await
+    }
 }
