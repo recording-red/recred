@@ -13,19 +13,17 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Style::Id)
-                            .integer()
+                            .string()
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Style::Name).string().not_null())
                     .to_owned(),
             )
             .await?;
 
         let insert = Query::insert()
             .into_table(Style::Table)
-            .columns([Style::Name])
+            .columns([Style::Id])
             .values_panic(["jazz".into()])
             .values_panic(["blues".into()])
             .values_panic(["rock".into()])
@@ -56,5 +54,4 @@ impl MigrationTrait for Migration {
 pub enum Style {
     Table,
     Id,
-    Name,
 }

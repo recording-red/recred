@@ -14,19 +14,17 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Instrument::Id)
-                            .integer()
+                            .string()
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Instrument::Name).string().not_null())
                     .to_owned(),
             )
             .await?;
 
         let insert_instrument = Query::insert()
             .into_table(Instrument::Table)
-            .columns([Instrument::Name])
+            .columns([Instrument::Id])
             .values_panic(["electric guitar".into()])
             .values_panic(["acoustic guitar".into()])
             .values_panic(["bass guitar".into()])
@@ -48,8 +46,7 @@ impl MigrationTrait for Migration {
 /// Learn more at https://docs.rs/sea-query#iden
 
 #[derive(Iden)]
-enum Instrument {
+pub enum Instrument {
     Table,
     Id,
-    Name,
 }

@@ -14,19 +14,17 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Language::Id)
-                            .integer()
+                            .string()
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Language::Name).string().not_null())
                     .to_owned(),
             )
             .await?;
 
         let insert_language = Query::insert()
             .into_table(Language::Table)
-            .columns([Language::Name])
+            .columns([Language::Id])
             .values_panic(["English".into()])
             .values_panic(["French".into()])
             .values_panic(["Japanese".into()])
@@ -53,5 +51,4 @@ impl MigrationTrait for Migration {
 pub enum Language {
     Table,
     Id,
-    Name,
 }

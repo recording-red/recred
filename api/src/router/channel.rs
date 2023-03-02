@@ -21,7 +21,7 @@ pub struct BackgroundForm {
     data: Vec<u8>,
 }
 
-#[patch("/background/{id}/")]
+#[patch("/banner/{id}/")]
 async fn patch_background(
     data: web::Data<AppState>,
     path: web::Path<String>,

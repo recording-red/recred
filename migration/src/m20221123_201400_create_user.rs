@@ -1,4 +1,5 @@
 use crate::m20221123_193000_create_language::Language;
+use crate::m20221123_193001_create_instrument::Instrument;
 use crate::m20221123_193002_create_role::Role;
 use sea_orm_migration::prelude::*;
 
@@ -79,7 +80,7 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Team::UserId).char_len(11).not_null())
-                    .col(ColumnDef::new(Team::RoleId).integer().not_null())
+                    .col(ColumnDef::new(Team::RoleId).string().not_null())
                     .col(
                         ColumnDef::new(Team::CreatedAt)
                             .timestamp_with_time_zone()
@@ -122,16 +123,18 @@ impl MigrationTrait for Migration {
                     .col(ColumnDef::new(Channel::Name).string().null())
                     .col(ColumnDef::new(Channel::Description).string().null())
                     .col(
-                        ColumnDef::new(Channel::Miniature)
+                        ColumnDef::new(Channel::Profile)
                             .blob(BlobSize::Blob(None))
                             .null(),
                     )
                     .col(
-                        ColumnDef::new(Channel::Background)
+                        ColumnDef::new(Channel::Banner)
                             .blob(BlobSize::Blob(None))
                             .null(),
                     )
-                    .col(ColumnDef::new(Channel::LanguageId).integer().default(2))
+                    .col(ColumnDef::new(Channel::LanguageId).string())
+                    .col(ColumnDef::new(Channel::InstrumentId).string())
+                    .col(ColumnDef::new(Channel::Styles).json())
                     .col(
                         ColumnDef::new(Channel::CreatedAt)
                             .timestamp_with_time_zone()
@@ -153,6 +156,12 @@ impl MigrationTrait for Migration {
                             .name("fk-channel-language_id")
                             .from(Channel::Table, Channel::LanguageId)
                             .to(Language::Table, Language::Id),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk-channel-instrument_id")
+                            .from(Channel::Table, Channel::InstrumentId)
+                            .to(Instrument::Table, Instrument::Id),
                     )
                     .to_owned(),
             )
@@ -205,9 +214,12 @@ enum Channel {
     TeamId,
     Name,
     Description,
-    Miniature,
-    Background,
+    Profile,
+    Banner,
     LanguageId,
+    InstrumentId,
+    Styles,
     CreatedAt,
     UpdatedAt,
 }
+
