@@ -21,9 +21,10 @@ impl ChannelQuery {
             team_id: Set(data.team_id.to_owned()),
             name: Set(data.name.to_owned()),
             description: Set(data.description.to_owned()),
-            miniature: Set(data.miniature.to_owned()),
-            background: Set(data.background.to_owned()),
+            banner: Set(data.banner.to_owned()),
+            profile: Set(data.profile.to_owned()),
             language_id: Set(data.language_id.to_owned()),
+            styles: Set(data.styles.to_owned()),
             created_at: Set(Utc::now()
                 .with_timezone(&FixedOffset::east_opt(0).unwrap())
                 .to_owned()),
@@ -42,9 +43,10 @@ impl ChannelQuery {
             team_id: Set(data.team_id.to_owned()),
             name: Set(data.name.to_owned()),
             description: Set(data.description.to_owned()),
-            miniature: Set(data.miniature.to_owned()),
-            background: Set(data.background.to_owned()),
+            banner: Set(data.banner.to_owned()),
+            profile: Set(data.profile.to_owned()),
             language_id: Set(data.language_id.to_owned()),
+            styles: Set(data.styles.to_owned()),
             created_at: Set(Utc::now()
                 .with_timezone(&FixedOffset::east_opt(0).unwrap())
                 .to_owned()),
@@ -57,14 +59,29 @@ impl ChannelQuery {
         .await
     }
 
-    pub async fn save_background(
+    pub async fn save_banner(
         db: &DbConn,
         id: String,
         data: Option<Vec<u8>>,
     ) -> Result<channel::Model, DbErr> {
         let channel: Option<channel::Model> = Channel::find_by_id(id).one(db).await?;
         let mut channel: channel::ActiveModel = channel.unwrap().into();
-        channel.background = Set(data.to_owned());
+        channel.banner = Set(data.to_owned());
+        channel.updated_at = Set(Utc::now()
+            .with_timezone(&FixedOffset::east_opt(0).unwrap())
+            .to_owned());
+
+        channel.update(db).await
+    }
+
+    pub async fn save_profile(
+        db: &DbConn,
+        id: String,
+        data: Option<Vec<u8>>,
+    ) -> Result<channel::Model, DbErr> {
+        let channel: Option<channel::Model> = Channel::find_by_id(id).one(db).await?;
+        let mut channel: channel::ActiveModel = channel.unwrap().into();
+        channel.profile = Set(data.to_owned());
         channel.updated_at = Set(Utc::now()
             .with_timezone(&FixedOffset::east_opt(0).unwrap())
             .to_owned());

@@ -1,7 +1,7 @@
 use crate::errors::RecRedError;
 use crate::AppState;
 use actix_web::{get, patch, post, web, Responder};
-use domain::channel::{create, read, read_all, update_background};
+use domain::channel::{create, read, read_all, update_banner, update_profile};
 use entity::channel;
 use serde::Deserialize;
 
@@ -22,7 +22,7 @@ pub struct BackgroundForm {
 }
 
 #[patch("/banner/{id}/")]
-async fn patch_background(
+async fn patch_banner(
     data: web::Data<AppState>,
     path: web::Path<String>,
     body: web::Bytes,
@@ -37,9 +37,31 @@ async fn patch_background(
             Some(data)
         }
     };
-    let obj = update_background(conn, id, data)
+    let obj = update_banner(conn, id, data)
         .await
-        .expect("could not update background");
+        .expect("could not update banner");
+    Ok(web::Json(obj))
+}
+
+#[patch("/profile/{id}/")]
+async fn patch_profile(
+    data: web::Data<AppState>,
+    path: web::Path<String>,
+    body: web::Bytes,
+) -> Result<impl Responder, RecRedError> {
+    let conn = &data.conn;
+    let id = path.into_inner();
+    let data: Vec<u8> = body.to_vec();
+    let data = {
+        if data.len() == 0 {
+            None
+        } else {
+            Some(data)
+        }
+    };
+    let obj = update_profile(conn, id, data)
+        .await
+        .expect("could not update profile");
     Ok(web::Json(obj))
 }
 

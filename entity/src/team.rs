@@ -2,7 +2,7 @@
 
 use sea_orm::entity::prelude::*;
 use serde::{Deserialize, Serialize};
-
+ 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Deserialize, Serialize)]
 #[sea_orm(table_name = "team")]
 pub struct Model {
@@ -10,10 +10,8 @@ pub struct Model {
     #[serde(skip_deserializing)]
     pub id: String,
     pub user_id: String,
-    pub role_id: i32,
-    #[serde(skip_deserializing)]
+    pub role_id: String,
     pub created_at: DateTimeWithTimeZone,
-    #[serde(skip_deserializing)]
     pub updated_at: DateTimeWithTimeZone,
 }
 

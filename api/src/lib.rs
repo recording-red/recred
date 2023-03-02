@@ -56,7 +56,8 @@ async fn start() -> std::io::Result<()> {
                     .service(channel::post)
                     .service(channel::list)
                     .service(channel::get)
-                    .service(channel::patch_background),
+                    .service(channel::patch_banner)
+                    .service(channel::patch_profile),
             )
             .service(web::scope("/style").service(style::get))
             .service(web::scope("/instrument").service(instrument::get))

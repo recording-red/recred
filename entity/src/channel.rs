@@ -12,10 +12,13 @@ pub struct Model {
     pub team_id: String,
     pub name: Option<String>,
     pub description: Option<String>,
-    pub miniature: Option<Vec<u8>>,
-    pub background: Option<Vec<u8>>,
     #[serde(skip_deserializing)]
-    pub language_id: Option<i32>,
+    pub profile: Option<Vec<u8>>,
+    #[serde(skip_deserializing)]
+    pub banner: Option<Vec<u8>>,
+    pub language_id: Option<String>,
+    pub instrument_id: Option<String>,
+    pub styles: Option<Json>,
     #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
     #[serde(skip_deserializing)]
@@ -24,6 +27,14 @@ pub struct Model {
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
+    #[sea_orm(
+        belongs_to = "super::instrument::Entity",
+        from = "Column::InstrumentId",
+        to = "super::instrument::Column::Id",
+        on_update = "NoAction",
+        on_delete = "NoAction"
+    )]
+    Instrument,
     #[sea_orm(
         belongs_to = "super::language::Entity",
         from = "Column::LanguageId",
@@ -40,6 +51,12 @@ pub enum Relation {
         on_delete = "NoAction"
     )]
     Team,
+}
+
+impl Related<super::instrument::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Instrument.def()
+    }
 }
 
 impl Related<super::language::Entity> for Entity {
