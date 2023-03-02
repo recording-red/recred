@@ -11,12 +11,7 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Style::Table)
                     .if_not_exists()
-                    .col(
-                        ColumnDef::new(Style::Id)
-                            .string()
-                            .not_null()
-                            .primary_key(),
-                    )
+                    .col(ColumnDef::new(Style::Id).string().not_null().primary_key())
                     .to_owned(),
             )
             .await?;

@@ -222,4 +222,3 @@ enum Channel {
     CreatedAt,
     UpdatedAt,
 }
-

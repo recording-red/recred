@@ -3,7 +3,6 @@ use crate::AppState;
 use actix_web::{get, patch, post, web, Responder};
 use domain::channel::{create, read, read_all, update_banner, update_profile};
 use entity::channel;
-use serde::Deserialize;
 
 #[post("/")]
 async fn post(
@@ -14,11 +13,6 @@ async fn post(
     let data = json.into_inner();
     let obj = create(conn, data).await.expect("could not create channel");
     Ok(web::Json(obj))
-}
-
-#[derive(Debug, Deserialize)]
-pub struct BackgroundForm {
-    data: Vec<u8>,
 }
 
 #[patch("/banner/{id}/")]
