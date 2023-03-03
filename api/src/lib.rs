@@ -54,6 +54,7 @@ async fn start() -> std::io::Result<()> {
                     //.app_data(web::FormConfig::default().limit(10*1024*1024))
                     .app_data(web::PayloadConfig::default().limit(10 * 1024 * 1024))
                     .service(channel::post)
+                    .service(channel::patch)
                     .service(channel::list)
                     .service(channel::get)
                     .service(channel::patch_banner)

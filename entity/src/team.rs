@@ -11,7 +11,9 @@ pub struct Model {
     pub id: String,
     pub user_id: String,
     pub role_id: String,
+    #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
+    #[serde(skip_deserializing)]
     pub updated_at: DateTimeWithTimeZone,
 }
 

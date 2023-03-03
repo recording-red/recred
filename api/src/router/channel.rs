@@ -1,7 +1,7 @@
 use crate::errors::RecRedError;
 use crate::AppState;
 use actix_web::{get, patch, post, web, Responder};
-use domain::channel::{create, read, read_all, update_banner, update_profile};
+use domain::channel::{create, read, read_all, update, update_banner, update_profile};
 use entity::channel;
 
 #[post("/")]
@@ -15,7 +15,20 @@ async fn post(
     Ok(web::Json(obj))
 }
 
-#[patch("/banner/{id}/")]
+#[patch("/{id}/")]
+async fn patch(
+    data: web::Data<AppState>,
+    path: web::Path<String>,
+    json: web::Json<channel::Model>,
+) -> Result<impl Responder, RecRedError> {
+    let conn = &data.conn;
+    let id = path.into_inner();
+    let data = json.into_inner();
+    let obj = update(conn, id, data).await.expect("could not create channel");
+    Ok(web::Json(obj))
+}
+
+#[patch("/{id}/banner/")]
 async fn patch_banner(
     data: web::Data<AppState>,
     path: web::Path<String>,
@@ -37,7 +50,7 @@ async fn patch_banner(
     Ok(web::Json(obj))
 }
 
-#[patch("/profile/{id}/")]
+#[patch("/{id}/profile/")]
 async fn patch_profile(
     data: web::Data<AppState>,
     path: web::Path<String>,

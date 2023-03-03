@@ -37,9 +37,9 @@ impl ChannelQuery {
         .await
     }
 
-    pub async fn save(db: &DbConn, data: channel::Model) -> Result<channel::ActiveModel, DbErr> {
+    pub async fn save(db: &DbConn, id: String, data: channel::Model) -> Result<channel::Model, DbErr> {
         channel::ActiveModel {
-            id: Set(data.id.to_owned()),
+            id: Set(id.to_owned()),
             team_id: Set(data.team_id.to_owned()),
             name: Set(data.name.to_owned()),
             description: Set(data.description.to_owned()),
@@ -47,15 +47,12 @@ impl ChannelQuery {
             profile: Set(data.profile.to_owned()),
             language_id: Set(data.language_id.to_owned()),
             styles: Set(data.styles.to_owned()),
-            created_at: Set(Utc::now()
-                .with_timezone(&FixedOffset::east_opt(0).unwrap())
-                .to_owned()),
             updated_at: Set(Utc::now()
                 .with_timezone(&FixedOffset::east_opt(0).unwrap())
                 .to_owned()),
             ..Default::default()
         }
-        .save(db)
+        .update(db)
         .await
     }
 

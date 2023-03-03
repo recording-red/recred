@@ -15,6 +15,10 @@ pub async fn read_all(db: &DbConn) -> Result<Vec<channel::Model>, DbErr> {
     ChannelQuery::find(db).await
 }
 
+pub async fn update(db: &DbConn, id: String, data: channel::Model) -> Result<channel::Model, DbErr> {
+    ChannelQuery::save(db, id, data).await
+}
+
 pub async fn update_banner(
     db: &DbConn,
     id: String,

@@ -15,6 +15,7 @@ pub struct Model {
     pub first_name: Option<String>,
     pub last_name: Option<String>,
     pub is_active: Option<bool>,
+    #[serde(skip_deserializing)]
     pub password: Option<String>,
     #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
