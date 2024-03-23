@@ -11,7 +11,7 @@ impl LanguageQuery {
 
     pub async fn save(db: &DbConn, data: language::Model) -> Result<language::ActiveModel, DbErr> {
         language::ActiveModel {
-            name: Set(data.name.to_owned()),
+            id: Set(data.id.to_owned()),
             ..Default::default()
         }
         .save(db)

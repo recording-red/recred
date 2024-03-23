@@ -1,4 +1,5 @@
 use crate::m20221123_193000_create_language::Language;
+use crate::m20221123_193001_create_instrument::Instrument;
 use crate::m20221123_193002_create_role::Role;
 use sea_orm_migration::prelude::*;
 
@@ -16,9 +17,8 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(User::Id)
-                            .big_integer()
+                            .char_len(11)
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
                     .col(ColumnDef::new(User::Email).string().not_null())
@@ -75,13 +75,12 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Team::Id)
-                            .big_integer()
+                            .char_len(11)
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Team::UserId).big_integer().not_null())
-                    .col(ColumnDef::new(Team::RoleId).integer().not_null())
+                    .col(ColumnDef::new(Team::UserId).char_len(11).not_null())
+                    .col(ColumnDef::new(Team::RoleId).string().not_null())
                     .col(
                         ColumnDef::new(Team::CreatedAt)
                             .timestamp_with_time_zone()
@@ -116,18 +115,25 @@ impl MigrationTrait for Migration {
                     .if_not_exists()
                     .col(
                         ColumnDef::new(Channel::Id)
-                            .big_integer()
+                            .char_len(11)
                             .not_null()
-                            .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(Channel::TeamId).big_integer().not_null())
-                    .col(ColumnDef::new(Channel::Name).string().not_null())
-                    .col(ColumnDef::new(Channel::Description).string().not_null())
-                    .col(ColumnDef::new(Channel::Miniature).binary())
-                    .col(ColumnDef::new(Channel::Background).binary())
-                    .col(ColumnDef::new(Channel::LanguageId).integer().not_null())
-                    .col(ColumnDef::new(Channel::Instruments).json())
+                    .col(ColumnDef::new(Channel::TeamId).char_len(11).not_null())
+                    .col(ColumnDef::new(Channel::Name).string().null())
+                    .col(ColumnDef::new(Channel::Description).string().null())
+                    .col(
+                        ColumnDef::new(Channel::Profile)
+                            .blob(BlobSize::Blob(None))
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Channel::Banner)
+                            .blob(BlobSize::Blob(None))
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Channel::LanguageId).string())
+                    .col(ColumnDef::new(Channel::InstrumentId).string())
                     .col(ColumnDef::new(Channel::Styles).json())
                     .col(
                         ColumnDef::new(Channel::CreatedAt)
@@ -150,6 +156,12 @@ impl MigrationTrait for Migration {
                             .name("fk-channel-language_id")
                             .from(Channel::Table, Channel::LanguageId)
                             .to(Language::Table, Language::Id),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk-channel-instrument_id")
+                            .from(Channel::Table, Channel::InstrumentId)
+                            .to(Instrument::Table, Instrument::Id),
                     )
                     .to_owned(),
             )
@@ -202,10 +214,10 @@ enum Channel {
     TeamId,
     Name,
     Description,
-    Miniature,
-    Background,
+    Profile,
+    Banner,
     LanguageId,
-    Instruments,
+    InstrumentId,
     Styles,
     CreatedAt,
     UpdatedAt,

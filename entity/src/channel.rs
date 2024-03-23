@@ -6,16 +6,18 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Deserialize, Serialize)]
 #[sea_orm(table_name = "channel")]
 pub struct Model {
-    #[sea_orm(primary_key)]
+    #[sea_orm(primary_key, auto_increment = false)]
     #[serde(skip_deserializing)]
-    pub id: i64,
-    pub team_id: i64,
-    pub name: String,
-    pub description: String,
-    pub miniature: Option<Vec<u8>>,
-    pub background: Option<Vec<u8>>,
-    pub language_id: i32,
-    pub instruments: Option<Json>,
+    pub id: String,
+    pub team_id: String,
+    pub name: Option<String>,
+    pub description: Option<String>,
+    #[serde(skip_deserializing)]
+    pub profile: Option<Vec<u8>>,
+    #[serde(skip_deserializing)]
+    pub banner: Option<Vec<u8>>,
+    pub language_id: Option<String>,
+    pub instrument_id: Option<String>,
     pub styles: Option<Json>,
     #[serde(skip_deserializing)]
     pub created_at: DateTimeWithTimeZone,
@@ -25,6 +27,14 @@ pub struct Model {
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
+    #[sea_orm(
+        belongs_to = "super::instrument::Entity",
+        from = "Column::InstrumentId",
+        to = "super::instrument::Column::Id",
+        on_update = "NoAction",
+        on_delete = "NoAction"
+    )]
+    Instrument,
     #[sea_orm(
         belongs_to = "super::language::Entity",
         from = "Column::LanguageId",
@@ -41,6 +51,12 @@ pub enum Relation {
         on_delete = "NoAction"
     )]
     Team,
+}
+
+impl Related<super::instrument::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::Instrument.def()
+    }
 }
 
 impl Related<super::language::Entity> for Entity {

@@ -6,21 +6,19 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq, Deserialize, Serialize)]
 #[sea_orm(table_name = "instrument")]
 pub struct Model {
-    #[sea_orm(primary_key)]
-    #[serde(skip_deserializing)]
-    pub id: i32,
-    pub name: String,
+    #[sea_orm(primary_key, auto_increment = false)]
+    pub id: String,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::instrument_local::Entity")]
-    InstrumentLocal,
+    #[sea_orm(has_many = "super::channel::Entity")]
+    Channel,
 }
 
-impl Related<super::instrument_local::Entity> for Entity {
+impl Related<super::channel::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::InstrumentLocal.def()
+        Relation::Channel.def()
     }
 }
 

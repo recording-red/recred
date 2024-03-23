@@ -1,3 +1,4 @@
+use crate::utils::generate_id;
 use ::entity::{user, user::Entity as User};
 use chrono::{FixedOffset, Utc};
 use sea_orm::entity::prelude::*;
@@ -10,12 +11,13 @@ impl UserQuery {
         User::find().all(db).await
     }
 
-    pub async fn find_by_id(db: &DbConn, id: i64) -> Result<Option<user::Model>, DbErr> {
+    pub async fn find_by_id(db: &DbConn, id: String) -> Result<Option<user::Model>, DbErr> {
         User::find_by_id(id).one(db).await
     }
 
-    pub async fn save(db: &DbConn, data: user::Model) -> Result<user::ActiveModel, DbErr> {
+    pub async fn insert(db: &DbConn, data: user::Model) -> Result<user::Model, DbErr> {
         user::ActiveModel {
+            id: Set(generate_id().to_owned()),
             email: Set(data.email.to_owned()),
             handle: Set(data.handle.to_owned()),
             display_name: Set(data.display_name.to_owned()),
@@ -26,6 +28,26 @@ impl UserQuery {
             created_at: Set(Utc::now()
                 .with_timezone(&FixedOffset::east_opt(0).unwrap())
                 .to_owned()),
+            updated_at: Set(Utc::now()
+                .with_timezone(&FixedOffset::east_opt(0).unwrap())
+                .to_owned()),
+            ..Default::default()
+        }
+        .insert(db)
+        .await
+    }
+
+    pub async fn save(db: &DbConn, data: user::Model) -> Result<user::ActiveModel, DbErr> {
+        user::ActiveModel {
+            id: Set(data.id.to_owned()),
+            email: Set(data.email.to_owned()),
+            handle: Set(data.handle.to_owned()),
+            display_name: Set(data.display_name.to_owned()),
+            first_name: Set(data.first_name.to_owned()),
+            last_name: Set(data.last_name.to_owned()),
+            is_active: Set(data.is_active.to_owned()),
+            password: Set(data.password.to_owned()),
+            created_at: Set(data.created_at.to_owned()),
             updated_at: Set(Utc::now()
                 .with_timezone(&FixedOffset::east_opt(0).unwrap())
                 .to_owned()),

@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 chrono = "^0.4"
 entity = { path = "../entity" }
+random-string = "^1"
 
 [dependencies.sea-orm]
 version = "^0.10" # sea-orm version

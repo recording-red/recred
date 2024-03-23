@@ -2,9 +2,7 @@
 
 pub use super::channel::Entity as Channel;
 pub use super::instrument::Entity as Instrument;
-pub use super::instrument_local::Entity as InstrumentLocal;
 pub use super::language::Entity as Language;
-pub use super::language_local::Entity as LanguageLocal;
 pub use super::registration::Entity as Registration;
 pub use super::role::Entity as Role;
 pub use super::style::Entity as Style;

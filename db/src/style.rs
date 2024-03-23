@@ -11,7 +11,7 @@ impl StyleQuery {
 
     pub async fn save(db: &DbConn, data: style::Model) -> Result<style::ActiveModel, DbErr> {
         style::ActiveModel {
-            name: Set(data.name.to_owned()),
+            id: Set(data.id.to_owned()),
             ..Default::default()
         }
         .save(db)
